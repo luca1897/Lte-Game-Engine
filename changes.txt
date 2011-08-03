@@ -1,0 +1,168 @@
+LTE Game Engine 2.2 - http://www.ltestudios.com
+===========================================================================
+Last update by SiberianSTAR on 11 November 2007
+---------------------------------------------------------------------------
+
+[ Current version 2.2 ]
+
+-----------------------------------------------------------------------------------------
+
+11 Nov 2007:
+
+Source code released
+
+
+[ Current version 2.2 ]
+
+-----------------------------------------------------------------------------------------
+ 
+- Fixed IReadFile and IWriteFile to work with relative paths
+
+- Added the method IVideoDriver::draw2DStretchedImage to draw stretched images.
+
+- Added the method IAudioSound::setAutoStop(ms) to automatically stop the sound after
+  ms milliseconds
+ 
+- Important fixes in the audio driver
+
+- added getAbsoluteClippingRect to get the clipping rect in gui elements
+
+- Added custom bones for Direct X meshes
+
+- Added GUI progressbar
+
+
+Changes in version 2.1a
+-----------------------------------------------------------------------------------------
+
+- Added the flag EMF_DISABLEFLUSH, enable this to get faster speed (Maybe).
+
+
+Changes in version 2.1
+-----------------------------------------------------------------------------------------
+
+- Changed the entrypoint of a program from main() to int engineMain(int argc, void *argv)
+
+- Added the Network driver that can be used to manage wifi and sockets.
+
+- Added Planar Shadows, a very fast kind of shadows.
+
+- Added two function to trace the texture cache, IVideoDriver::getTextureByIndex and
+  IVideoDriver::getTextureCount
+  
+- Added the core::stringb class for manage binary strings and received data from sockets.
+
+- Fixed a bug in the virtual keyboard
+
+- Small bug fixes
+
+Changes in version 2.0f
+-----------------------------------------------------------------------------------------
+
+- Some fixes in the audio driver. Thanks to Nyxojaele for helping me finding and
+  solving this bug.
+
+Changes in version 2.0e
+-----------------------------------------------------------------------------------------
+  
+- Possibility to disable the mouse control while the cursor is still visible, by doing
+  getCursorControl()->setEnabled(false);
+
+- Possibility to enable or disable the cross button for the mouse control doing
+  getCursorControl()->setXEnabled(false/true) (mouse is still moveable, to stop moving
+  use setEnabled)
+
+Changes in version 2.0d
+-----------------------------------------------------------------------------------------
+
+- Now it's possible to use GL_LESS instead of GL_LEQUAL depth func of a scene node doing
+  node->setMaterialFlag(video::EMF_DEPTHLESS, true);
+
+Changes in version 2.0c
+-----------------------------------------------------------------------------------------
+
+- Now the MOUSEMOVE Event is called correctly
+
+- Possibiliy to change the speed of the cursor doing SceneManager->getCursorControl()->setSpeed(x),
+  the default value is 100.
+
+- Fixed the intersectWith method for 2d lines
+
+- The clipping routine needs to run faster a buffer that is set to 1MB, if you don't want to use
+  this feature do driver->enableClippingFeature ( false ); to get this memory. As default
+  the clipping routine is enabled.
+
+- Renamed the flag EMF_STATIC_MESH into EMF_DMA. This flag can be set for a node using 
+  node->setMaterialFlag(video::EMF_DMA, true). If you enable this flag the mesh buffer will be
+  send directly to the GPU. Note that if you use it for animated meshes used in multiple nodes
+  you will get weird results.
+
+- Now it's possible to use EMF_DMA for MD2 Animated Meshes also if used in multiple nodes.
+
+- AT3 audio play speed improvement.
+
+
+Changes in version 2.0b
+-----------------------------------------------------------------------------------------
+
+- Fixed a bug causing terrains rendering slow
+
+
+Changes in version 2.0a
+-----------------------------------------------------------------------------------------
+
+- Improved the speed of the clipping routine.
+
+- Added EMF_STATIC_MESH material flag, if your mesh is static and doesn't need clipping
+  enabling this feature will give a better performance.
+
+
+Changes in version 2.0
+-----------------------------------------------------------------------------------------
+- Changed name from LTE 3D Engine to LTE Game Engine
+
+- Added support for Mipmapped textures. Mipmapping gives an high speed improvement.
+  By default all textures are mipmapped, you can disable this feature with
+  driver->setTextureCreationFlag(video::ETCF_CREATE_MIP_MAPS, false);
+
+- Clipping comes necessary when your meshes has big triangles, but for model and object
+  meshes (like the character) this is not necessary. By default now clipping is not
+  enabled by default: if you need the engine to clip your mesh type
+  node->setMaterialFlag(video::EMF_CLIPPING, true);
+
+- Mesh triangle subdivision: Now it's possible to subidive the triangles of your meshes
+  wich sides are greater than a value. You can do this using the Mesh Manipulator:
+  SceneManager->getMeshManipulator()->subdivideTriangles(YourMesh, MaxSideSize)
+
+- Added support for rendering into textures. This feature is very common, and the
+  engine now can do it. Look at the RenderToTexture example for further information.
+
+- Multitexturing is now supported. This feature is limited because it doesn't support
+  multi texture coordinates, and it takes one more rendering pass (PSP GPU doesn't support
+  one-pass multi texturing). Look at the SpecialFX example for further information.
+
+- Added Sphere mapping: this effect is now supported. To enable sphere mapping for your
+  scene node type node->setMaterialType(video::EMT_SPHERE_MAP).
+
+- Added B3D Mesh support with full bone animator.
+
+- Added celshading effect for your IAnimatedMeshSceneNode. To enable this feature for your
+  scene node simply do: node->addCelshadingSceneNode(). Look at the documentation for
+  further information.
+
+- Added support for Dynamic Shadows. Look at the Dynamic Shadow example for further 
+  information.
+
+- Added ATRAC3 Audio support. Note that you can set position, get position, get duration,
+  only for mp3 audio files.
+
+- Now the File Browser sort the list pushing the folder on the top of the list.
+
+- The speed of the mouse cursor is proportional to the current frame rate, this allows
+  to use the cursor also at lower framerate.
+
+- General speed improvement
+
+- A Lot of Bug fixes
+
+- Changed the intro logo screen and music effect

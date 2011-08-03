@@ -1,0 +1,118 @@
+/*
+ * LTE Game Engine
+ * Copyright (C) 2006-2008 SiberianSTAR <haxormail@gmail.com>
+ * http://www.ltestudios.com
+ *  
+ * The LTE Game Engine is based on Irrlicht 1.0
+ * Irrlicht Engine is Copyright (C) 2002-2006 Nikolaus Gebhardt
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+ 
+//
+// This file was originally written by Salvatore Russo.
+// I (Nikolaus Gebhardt) did some minor modifications changes to it and integrated
+// it into engine:
+// - removed STL dependency
+// - removed log file and replaced it with engine logging
+// - adapted code formatting a bit to engine style
+// - removed memory leaks
+// Thanks a lot to Salvatore for his work on this and that he gave me
+// his permission to add it into engine.
+
+/*
+   CDMFLoader by Salvatore Russo
+   Version 1.3
+
+   This loader is used to load DMF files in engine.
+   Look at the documentation for a sample application.
+
+   Parts of this code are from engine's CQ3LevelMesh and C3DSMeshFileLoader,
+   and are Copyright (C) 2002-2004 Nikolaus Gebhardt.
+
+   Parts of this code are from Murphy McCauley COCTLoader just like GetFaceNormal() or indexes
+   creation routines and a routine to add faces. So please refer to COCTLoader.h to know more
+   about rights granted.
+
+   You can use this software as you wish but you must not remove these notes about license nor
+   credits to others for parts of this code.
+ */
+
+#ifndef __C_DMF_LOADER_H_INCLUDED__
+#define __C_DMF_LOADER_H_INCLUDED__
+
+#include "IMeshLoader.h"
+#include "IReadFile.h"
+#include "SMesh.h"
+#include "IVideoDriver.h"
+#include "ISceneManager.h"
+#include "SAnimatedMesh.h"
+
+namespace engine
+{
+namespace scene
+{
+/** A class to load DeleD mesh files.*/
+class CDMFLoader : public IMeshLoader
+{
+public:
+
+/** constructor*/
+CDMFLoader(video::IVideoDriver* driver,engine::scene::ISceneManager* smgr);
+
+/** destructor*/
+virtual ~CDMFLoader();
+
+//! returns true if the file maybe is able to be loaded by this class
+//! based on the file extension (e.g. ".cob")
+virtual bool isALoadableFileExtension(const c8* fileName);
+
+/** creates/loads an animated mesh from the file.
+ \return Pointer to the created mesh. Returns 0 if loading failed.
+   If you no longer need the mesh, you should call IAnimatedMesh::drop().
+   See IUnknown::drop() for more information.*/
+virtual IAnimatedMesh* createMesh(engine::io::IReadFile* file);
+
+/** loads dynamic lights present in this scene.
+   Note that loaded lights from DeleD must have the suffix \b dynamic_ and must be \b pointlight.
+   engine correctly loads specular color, diffuse color , position and distance of object affected by light.
+ \return number of lights loaded or 0 if loading failed.*/
+int loadLights(const c8 * filename, engine::scene::ISceneManager* smgr,
+               ISceneNode*  parent = 0, s32 base_id = 1000);
+
+/** loads water plains present in this scene.
+   Note that loaded water plains from DeleD must have the suffix \b water_ and must be \b rectangle (with just 1 rectangular face).
+   engine correctly loads position and rotation of water plain as well as texture layers.
+ \return number of water plains loaded or 0 if loading failed.*/
+int loadWaterPlains ( const c8 *filename,
+                      engine::scene::ISceneManager* smgr,
+                      ISceneNode * parent = 0,
+                      s32 base_id = 2000,
+                      bool mode = true);
+
+private:
+
+void GetFaceNormal(f32 a[3], f32 b[3], f32 c[3], f32 out[3]);
+
+video::IVideoDriver* Driver;
+scene::ISceneManager* SceneMgr;
+};
+
+} // end namespace scene
+} // end namespace engine
+
+#endif
+

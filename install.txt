@@ -1,0 +1,18 @@
+To make and install the engine type
+
+ cd src
+ make
+ make install
+ 
+To compile an example
+ 
+ cd examples
+ cd XX.FolderName
+ make
+ 
+ 
+You only need the engine source code if you want to make changes to the engine otherwise
+there is a precompiled version of the engine in the /libs/ folder.
+
+If you are having trouble with conflicting psptypes copy pspsdk/include/psptypes.h
+to your pspsdk include folder.
