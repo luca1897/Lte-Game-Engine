@@ -141,11 +141,11 @@ void CNetworkDriver::run()
 		if (state == 4)
 		{
 			// connection ok
-			char szMyIPAddr[32];
-			if (sceNetApctlGetInfo(8, szMyIPAddr) == 0)
+			union SceNetApctlInfo info;
+			if (sceNetApctlGetInfo(8, &info) == 0)
 			{
 
-				localip = szMyIPAddr;
+				localip = info.ip;
 
 			}
 			else {
