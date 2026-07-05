@@ -69,6 +69,6 @@ just compile the example doing 'make' or 'make kxploit'.
 ===========================================================================
 
 LTE Game Engine Source Code is released under the GNU Lesser General Public License,
-for further information ead license.txt
+for further information read license.txt
 
 
